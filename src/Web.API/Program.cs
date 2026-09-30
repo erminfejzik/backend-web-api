@@ -15,4 +15,6 @@ app.MapGet("/", () => System.DateTime.UtcNow.ToString(
     "yyyy-MM-dd HH:mm:ss",
     System.Globalization.CultureInfo.CurrentCulture));
 
+app.MapGet("/name/{name}", (string name) => $"Hello, {name}!");
+
 await app.RunAsync();
