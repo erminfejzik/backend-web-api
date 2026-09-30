@@ -11,8 +11,11 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '0ee783cc-5e5d-438c-bae4-04a965adb579'
+  azureSubscriptionConnection: 'a8d1684e-40b9-430d-9b63-ec483598d2cb'
   imageRepository: 'backendwebapi'
   containerRegistry: 'backendwebapi.azurecr.io'
+  containerAppName: 'backend-api-container'
+  resourceGroup: 'VisualStudioOnline-2861540766144BF1AEA5AB50427A8E55'
   dockerfilePath: '$(Build.SourcesDirectory)/src/Web.API/Dockerfile'
   tag: '$(Build.BuildId)'
 
@@ -38,3 +41,23 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+- stage: Deploy
+  displayName: Deploy Stage
+  dependsOn: Build
+  jobs:
+    - job: Deploy
+      displayName: Deploy to ACA
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - task: AzureCLI@2
+          displayName: Update Container App Image
+          inputs:
+            azureSubscription: $(azureSubscriptionConnection)
+            scriptType: 'bash'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              az containerapp update \
+                --name $(containerAppName) \
+                --resource-group $(resourceGroup) \
+                --image $(dockerRegistryServiceConnection)/$(imageRepository):$(tag)
