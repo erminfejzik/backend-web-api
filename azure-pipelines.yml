@@ -12,6 +12,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '0ee783cc-5e5d-438c-bae4-04a965adb579'
   azureSubscriptionConnection: 'a8d1684e-40b9-430d-9b63-ec483598d2cb'
+  acrLoginServer: 'backendwebapi.azurecr.io'
   imageRepository: 'backendwebapi'
   containerAppName: 'backend-api-container'
   resourceGroup: 'VisualStudioOnline-2861540766144BF1AEA5AB50427A8E55'
@@ -59,4 +60,4 @@ stages:
               az containerapp update \
                 --name $(containerAppName) \
                 --resource-group $(resourceGroup) \
-                --image $(dockerRegistryServiceConnection)/$(imageRepository):$(tag)
+                --image $(acrLoginServer)/$(imageRepository):$(tag)
