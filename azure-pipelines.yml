@@ -60,4 +60,6 @@ stages:
               az containerapp update \
                 --name $(containerAppName) \
                 --resource-group $(resourceGroup) \
-                --image $(dockerRegistryServiceConnection)/$(imageRepository):$(tag)
+                --image $(dockerRegistryServiceConnection)/$(imageRepository):$(tag) \
+                --registry-server $(containerRegistry) \
+                --registry-identity system
