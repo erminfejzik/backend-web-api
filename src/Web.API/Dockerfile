@@ -9,6 +9,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["Solution Items/.editorconfig", "."]
 COPY ["Solution Items/Directory.Packages.props", "."]
 COPY ["Solution Items/Directory.Build.props", "."]
 COPY ["src/Web.API/Web.API.csproj", "src/Web.API/"]
