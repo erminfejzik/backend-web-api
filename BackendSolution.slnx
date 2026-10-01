@@ -1,8 +1,8 @@
 <Solution>
   <Folder Name="/Solution Items/">
-	<File Path="Solution Items/.editorconfig" />
-    <File Path="Solution Items/Directory.Build.props" />
-    <File Path="Solution Items/Directory.Packages.props" />
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Application/Application.csproj" Id="5419d309-51ac-4302-b369-3c0364dcaab2" />
