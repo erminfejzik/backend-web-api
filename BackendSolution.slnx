@@ -5,6 +5,9 @@
     <File Path="Solution Items/Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/Application/Application.csproj" Id="5419d309-51ac-4302-b369-3c0364dcaab2" />
+    <Project Path="src/Domain/Domain.csproj" Id="45b41d00-eb2c-46a3-a5eb-0afe37168336" />
+    <Project Path="src/Infrastructure/Infrastructure.csproj" Id="2713c928-019a-41e1-adad-dab520877a4b" />
     <Project Path="src/Web.API/Web.API.csproj" />
   </Folder>
   <Folder Name="/tests/" />
