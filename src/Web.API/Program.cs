@@ -1,20 +1,35 @@
+using Application;
+using Carter;
+using Infrastructure;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddCarter();
+
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", () => System.DateTime.UtcNow.ToString(
-    "yyyy-MM-dd HH:mm:ss",
-    System.Globalization.CultureInfo.CurrentCulture));
-
-app.MapGet("/name/{name}", (string name) => $"Hello, {name}!");
+app.MapCarter();
 
 await app.RunAsync();
