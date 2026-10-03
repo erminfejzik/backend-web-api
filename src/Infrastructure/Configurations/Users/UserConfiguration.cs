@@ -1,10 +1,10 @@
-﻿using Domain.Entities;
+﻿using Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Configurations
+namespace Infrastructure.Configurations.Users
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public sealed class UserConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
@@ -22,6 +22,11 @@ namespace Infrastructure.Configurations
             builder.Property(u => u.Password)
                 .IsRequired()
                 .HasMaxLength(84); // 84 characters is the maximum length for a hashed password using PasswordHasher
+
+            builder.HasOne(u => u.Role)
+                .WithMany()
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(u => u.CreatedAt)
                 .IsRequired()
