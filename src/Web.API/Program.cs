@@ -36,6 +36,14 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
+if (app.Environment.IsDevelopment() && builder.Configuration.GetValue<bool>("ApplyMigrations"))
+{
+    using var scope = app.Services.CreateScope();
+    var services = scope.ServiceProvider;
+    var db = services.GetRequiredService<ApplicationDbContext>();
+    await db.Database.MigrateAsync();
+}
+
 app.MapCarter();
 
 await app.RunAsync();
