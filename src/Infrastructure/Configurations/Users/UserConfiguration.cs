@@ -31,6 +31,12 @@ namespace Infrastructure.Configurations.Users
             builder.Property(u => u.CreatedAt)
                 .IsRequired()
                 .HasDefaultValueSql("SYSUTCDATETIME()");
+
+            builder.HasData(new User(
+                id: Guid.Parse("01a10cab-98f1-7b35-aeae-96490d14578e"),
+                email: "super-admin@example.com",
+                password: "AQAAAAIAAYagAAAAEEyQ75ozi8VLY0iYz0IgFd2Jxr/ICs/6nlpojUmIJQ947Sybe428FBlk+Naizm+ZnQ==",
+                roleId: Role.SuperAdminId));
         }
     }
 }

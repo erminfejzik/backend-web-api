@@ -17,9 +17,9 @@ namespace Infrastructure.Configurations.Users
                 .HasMaxLength(10);
 
             builder.HasData(
-                new Role(Role.SuperAdminId, Role.SuperAdmin),
-                new Role(Role.AdminId, Role.Admin),
-                new Role(Role.UserId, Role.User)
+                Role.SuperAdminRole(),
+                Role.AdminRole(),
+                Role.UserRole()
             );
         }
     }
