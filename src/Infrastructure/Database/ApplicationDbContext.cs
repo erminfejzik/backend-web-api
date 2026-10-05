@@ -1,5 +1,4 @@
-﻿using Domain.Common;
-using Domain.Entities;
+﻿using Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database
@@ -7,6 +6,7 @@ namespace Infrastructure.Database
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
     {
         public DbSet<User> Users => Set<User>();
+        public DbSet<Role> Roles => Set<Role>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
