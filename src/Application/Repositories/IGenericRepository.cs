@@ -7,6 +7,6 @@
     /// </summary>
     public interface IGenericRepository
     {
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<int> SaveChangesAsync();
     }
 }

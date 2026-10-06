@@ -6,9 +6,9 @@ namespace Infrastructure.Repositories
     {
         protected readonly ApplicationDbContext DbContext = context;
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public Task<int> SaveChangesAsync()
         {
-            return DbContext.SaveChangesAsync(cancellationToken);
+            return DbContext.SaveChangesAsync();
         }
     }
 }
