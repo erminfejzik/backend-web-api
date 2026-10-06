@@ -5,6 +5,6 @@ namespace Application.Repositories.Users
 {
     public interface IUserRepository : IGenericRepository
     {
-        void Add(User user, CancellationToken cancellationToken = default);
+        void Add(User user);
     }
 }
