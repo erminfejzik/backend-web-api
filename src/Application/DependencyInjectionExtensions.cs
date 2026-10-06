@@ -8,7 +8,14 @@ namespace Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            Assembly assembly = Assembly.GetExecutingAssembly();
+
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(assembly);
+            });
+            
+            services.AddValidatorsFromAssembly(assembly);
             return services;
         }
     }
