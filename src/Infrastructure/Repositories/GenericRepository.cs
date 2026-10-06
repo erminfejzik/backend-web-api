@@ -1,8 +1,9 @@
-﻿using Infrastructure.Database;
+﻿using Application.Repositories;
+using Infrastructure.Database;
 
 namespace Infrastructure.Repositories
 {
-    internal abstract class GenericRepository(ApplicationDbContext context) : Application.Abstractions.IGenericRepository
+    internal abstract class GenericRepository(ApplicationDbContext context) : IGenericRepository
     {
         protected readonly ApplicationDbContext DbContext = context;
 

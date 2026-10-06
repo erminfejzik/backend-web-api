@@ -1,5 +1,5 @@
 ﻿using Application.Repositories.Users;
-using Domain.Entities.Users;
+using Domain.Users;
 using Infrastructure.Database;
 
 namespace Infrastructure.Repositories.Users

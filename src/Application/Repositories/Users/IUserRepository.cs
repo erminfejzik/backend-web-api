@@ -1,5 +1,4 @@
-﻿using Application.Abstractions;
-using Domain.Entities.Users;
+﻿using Domain.Users;
 
 namespace Application.Repositories.Users
 {

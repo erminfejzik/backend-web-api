@@ -1,4 +1,4 @@
-﻿namespace Application.Abstractions
+﻿namespace Application.Repositories
 {
     /// <summary>
     /// Represents a generic repository interface.

@@ -1,6 +1,6 @@
 ﻿using Domain.Common;
 
-namespace Domain.Entities.Users
+namespace Domain.Users
 {
     public sealed class User : BaseEntity
     {

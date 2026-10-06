@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities.Users
+﻿namespace Domain.Users
 {
     public sealed class Role
     {
