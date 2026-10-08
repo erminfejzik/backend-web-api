@@ -2,8 +2,8 @@
 
 namespace Infrastructure.Time
 {
-    internal sealed class DateTimeProvider : IDateTimeProvider
+    internal sealed class DateTimeProvider(TimeProvider time) : IDateTimeProvider
     {
-        public DateTime UtcNow => DateTime.UtcNow;
+        public DateTimeOffset UtcNow => time.GetUtcNow();
     }
 }

@@ -15,6 +15,8 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
+
+            services.AddSingleton(TimeProvider.System);
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
