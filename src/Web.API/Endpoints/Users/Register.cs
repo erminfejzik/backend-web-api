@@ -19,7 +19,7 @@ namespace Web.API.Endpoints.Users
 
                 return result.IsSuccess 
                     ? Results.Created("/users/{id}", new { Id = result.Value.ToString() })
-                    : result.Error.ToProblem();
+                    : result.Errors.ToProblem();
             })
                 .WithName("RegisterUser")
                 .Produces(StatusCodes.Status201Created)
