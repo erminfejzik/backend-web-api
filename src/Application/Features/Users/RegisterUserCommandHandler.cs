@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Services;
 using Application.Extensions;
 using Application.Repositories.Users;
 using Common;
@@ -11,7 +12,8 @@ namespace Application.Features.Users
     internal sealed class RegisterUserCommandHandler(
         IUserRepository userRepository,
         IPasswordHasher passwordHasher,
-        IValidator<RegisterUserCommand> validator) 
+        IValidator<RegisterUserCommand> validator,
+        IEmailService emailService) 
         : IRequestHandler<RegisterUserCommand, Result<Guid>>
     {
         public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
@@ -37,6 +39,8 @@ namespace Application.Features.Users
             userRepository.Add(user);
 
             await userRepository.SaveChangesAsync();
+
+            await emailService.SendAsync(command.Email, "Welcome to Our App", "<p>Thank you for registering!</p>", cancellationToken);
 
             return Result<Guid>.Success(user.Id);
         }
