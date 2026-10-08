@@ -7,12 +7,14 @@ namespace Web.API.Extensions
     /// </summary>
     public static class ErrorExtensions
     {
-        public static IResult ToProblem(this Error error)
+        public static IResult ToProblem(this List<Error> errors)
         {
-            if (error.Type == ErrorType.Failure)
+            if (errors.Count == 0)
             {
-                throw new InvalidOperationException("Cannot convert a empty error to a problem.");
+                throw new InvalidOperationException("Cannot convert an empty list of errors to a problem.");
             }
+
+            var error = errors[0];
 
             var status = error.Type switch
             {
@@ -22,8 +24,18 @@ namespace Web.API.Extensions
                 _ => StatusCodes.Status500InternalServerError,
             };
 
-            return Results.Problem(detail: error.Description, title: error.Code, statusCode: status);
+            string detail = errors.Count > 1
+                ? "Multiple errors occurred. See the 'errors' property for details."
+                : error.Description;
 
+            var extensionsValue = errors.GroupBy(e => e.Code)
+                .ToDictionary(g => g.Key, g => g.Select(e => e.Description).ToArray());
+
+            return Results.Problem(
+                detail: detail,
+                statusCode: status,
+                extensions: [new KeyValuePair<string, object?>("errors", extensionsValue)]
+            );
         }
     }
 }
