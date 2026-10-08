@@ -29,7 +29,6 @@ namespace Application.Features.Users
 
             var user = new User
             {
-                Id = Guid.CreateVersion7(),
                 Email = command.Email,
                 Password = passwordHasher.Hash(command.Password),
                 RoleId = Role.UserId
