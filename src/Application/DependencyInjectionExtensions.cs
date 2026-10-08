@@ -15,7 +15,7 @@ namespace Application
                 cfg.RegisterServicesFromAssembly(assembly);
             });
             
-            services.AddValidatorsFromAssembly(assembly);
+            services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
             return services;
         }
     }
