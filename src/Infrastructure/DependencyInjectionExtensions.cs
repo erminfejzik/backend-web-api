@@ -22,6 +22,7 @@ namespace Infrastructure
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
             services.AddEmailService(configuration);
+            services.AddSingleton<IUserTokenGenerator, UserTokenGenerator>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
