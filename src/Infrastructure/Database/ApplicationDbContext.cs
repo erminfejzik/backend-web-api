@@ -1,4 +1,5 @@
-﻿using Domain.Users;
+﻿using Domain.Outbox;
+using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database
@@ -7,6 +8,8 @@ namespace Infrastructure.Database
     {
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();
+        public DbSet<UserToken> UserTokens => Set<UserToken>();
+        public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
