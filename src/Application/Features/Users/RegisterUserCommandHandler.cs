@@ -1,7 +1,7 @@
 ﻿using Application.Abstractions.Authentication;
-using Application.Abstractions.Services;
+using Application.Abstractions.Database;
 using Application.Extensions;
-using Application.Repositories.Users;
+using Application.Repositories;
 using Common;
 using Domain.Users;
 using FluentValidation;
@@ -10,10 +10,10 @@ using MediatR;
 namespace Application.Features.Users
 {
     internal sealed class RegisterUserCommandHandler(
+        IUnitOfWork unitOfWork,
         IUserRepository userRepository,
         IPasswordHasher passwordHasher,
-        IValidator<RegisterUserCommand> validator,
-        IEmailService emailService) 
+        IValidator<RegisterUserCommand> validator) 
         : IRequestHandler<RegisterUserCommand, Result<Guid>>
     {
         public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
@@ -38,9 +38,7 @@ namespace Application.Features.Users
 
             userRepository.Add(user);
 
-            await userRepository.SaveChangesAsync();
-
-            await emailService.SendAsync(command.Email, "Welcome to Our App", "<p>Thank you for registering!</p>", cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<Guid>.Success(user.Id);
         }

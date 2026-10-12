@@ -1,20 +1,22 @@
-﻿using Domain.Outbox;
+﻿using Application.Abstractions.Database;
+using Domain.Outbox;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IUnitOfWork, IReadDbContext
     {
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<UserToken> UserTokens => Set<UserToken>();
         public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
+        IQueryable<User> IReadDbContext.Users => Users.AsNoTracking();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Scans the assembly and applies all IEntityTypeConfiguration classes
-            modelBuilder?.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
     }
 }
