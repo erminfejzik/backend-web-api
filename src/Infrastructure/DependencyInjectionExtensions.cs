@@ -34,6 +34,7 @@ namespace Infrastructure
 
             #region Repositories
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IOutboxMessageRepository, OutboxMessageRepository>();
             #endregion Repositories
         }
 
