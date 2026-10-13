@@ -158,12 +158,13 @@ namespace Infrastructure.BackgroundServices
 
                 var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
                 var outboxMessagesRepository = scope.ServiceProvider.GetRequiredService<IOutboxMessageRepository>();
+                var dateTimeProvider = scope.ServiceProvider.GetRequiredService<IDateTimeProvider>();
 
                 var msg = await outboxMessagesRepository.GetByIdAsync(id, ct);
                 if (msg is null) return;
 
                 var error = string.IsNullOrWhiteSpace(ex.Message) ? ex.GetType().Name : ex.Message;
-                var gaveUp = msg.RegisterFailure(error, permanent, MaxRetries, BaseDelay, DateTime.UtcNow);
+                var gaveUp = msg.RegisterFailure(error, permanent, MaxRetries, BaseDelay, dateTimeProvider.UtcNow);
 
                 if (gaveUp)
                 {

@@ -34,7 +34,8 @@ namespace Infrastructure.Database
                         // Apply it only to Guid primary keys
                         if (property.ClrType == typeof(Guid))
                         {
-                            property.SetDefaultValueSql("NEWSEQUENTIALID()");
+                            // Tells EF Core to generate the SQL Server-optimized UUIDv7 on the client side
+                            property.SetValueGeneratorFactory((_, _) => new SqlServerUuidV7Generator());
                         }
                     }
                 }

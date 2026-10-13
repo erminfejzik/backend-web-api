@@ -29,7 +29,7 @@ namespace Domain.Outbox
         public static OutboxMessage Create(string type, string payload) => new()
         {
             Type = type,
-            Payload = payload
+            Payload = payload,
         };
 
         public void MarkProcessed(DateTimeOffset nowUtc)
