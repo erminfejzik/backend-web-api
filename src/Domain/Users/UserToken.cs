@@ -8,26 +8,29 @@
     public class UserToken
     {
         public int Id { get; init; }
-        public Guid UserId { get; set; }
-        public UserTokenPurpose Purpose { get; set; }
-        public string? Email { get; set; } // only for VerifyEmail
-        public string TokenHash { get; set; } = null!;
-        public DateTimeOffset ExpiresAt { get; set; }
-        public DateTimeOffset? UsedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+        public Guid UserId { get; private set; }
+        public UserTokenPurpose Purpose { get; private set; }
+        public string? Email { get; private set; } // only for VerifyEmail
+        public string TokenHash { get; private set; } = null!;
+        public DateTimeOffset ExpiresAt { get; private set; }
+        public DateTimeOffset? UsedAt { get; private set; }
+        public DateTimeOffset CreatedAt { get; private set; }
 
         public static UserToken Create(
             Guid userId,
             UserTokenPurpose purpose,
             string email,
             string tokenHash,
-            TimeSpan lifetime) => new()
+            TimeSpan lifetime,
+            DateTimeOffset now) => new()
         {
             UserId = userId,
             Purpose = purpose,
             Email = email,
             TokenHash = tokenHash,
-            ExpiresAt = DateTimeOffset.UtcNow.Add(lifetime)
+            ExpiresAt = now.Add(lifetime),
         };
+
+        public void Revoke(DateTimeOffset now) => UsedAt = now;
     }
 }

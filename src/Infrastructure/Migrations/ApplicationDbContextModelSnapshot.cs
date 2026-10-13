@@ -145,19 +145,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("User", "Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("01a10cab-98f1-7b35-aeae-96490d14578e"),
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Email = "super-admin@example.com",
-                            FailedLoginAttempts = 0,
-                            IsBlocked = false,
-                            Password = "AQAAAAIAAYagAAAAEEyQ75ozi8VLY0iYz0IgFd2Jxr/ICs/6nlpojUmIJQ947Sybe428FBlk+Naizm+ZnQ==",
-                            RoleId = 1,
-                            TwoFactorEnabled = false
-                        });
                 });
 
             modelBuilder.Entity("Domain.Users.UserToken", b =>
@@ -218,10 +205,15 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Users.UserToken", b =>
                 {
                     b.HasOne("Domain.Users.User", null)
-                        .WithMany()
+                        .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Users.User", b =>
+                {
+                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

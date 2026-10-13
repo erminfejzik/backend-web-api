@@ -29,12 +29,11 @@ namespace Application.Features.Users
                 return Result<Guid>.Failure([UserErrors.EmailTaken]);
             }
 
-            var user = new User
-            {
-                Email = command.Email,
-                Password = passwordHasher.Hash(command.Password),
-                RoleId = Role.UserId
-            };
+            var user = User.Create(
+                email: command.Email,
+                passwordHash: passwordHasher.Hash(command.Password),
+                roleId: Role.UserId
+            );
 
             userRepository.Add(user);
 

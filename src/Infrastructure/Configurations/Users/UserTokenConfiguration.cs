@@ -12,8 +12,6 @@ namespace Infrastructure.Configurations.Users
 
             builder.HasKey(userToken => userToken.Id);
 
-            builder.HasOne<User>().WithMany().HasForeignKey(x => x.UserId);
-
             builder.Property(x => x.Purpose).IsRequired().HasConversion<string>().HasMaxLength(30);
             builder.Property(x => x.Email).HasMaxLength(256);
             builder.Property(x => x.TokenHash).HasMaxLength(64).HasColumnType("char(64)");
