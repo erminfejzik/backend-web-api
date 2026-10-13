@@ -41,10 +41,6 @@ namespace Infrastructure.Configurations.Users
             builder.HasMany(u => u.Tokens)
                 .WithOne()
                 .HasForeignKey(t => t.UserId);
-
-            builder.Property(u => u.CreatedAt)
-                .IsRequired()
-                .HasDefaultValueSql("SYSUTCDATETIME()");
         }
     }
 }
