@@ -1,13 +1,14 @@
-﻿namespace Domain.Outbox
+﻿using Domain.Common;
+
+namespace Domain.Outbox
 {
     public static class OutboxMessageTypes
     {
         public const string VerificationEmail = "VerificationEmail";
     }
 
-    public sealed class OutboxMessage
+    public sealed class OutboxMessage : BaseEntity
     {
-        public Guid Id { get; init; }
         public string Type { get; private set; } = default!;
         /// <summary>
         /// The payload of the outbox message, JSON formatted.
@@ -24,8 +25,6 @@
         /// Contains the last error message.
         /// </summary>
         public string? Error { get; private set; }
-
-        public DateTimeOffset CreatedAt { get; init; }
 
         public static OutboxMessage Create(string type, string payload) => new()
         {

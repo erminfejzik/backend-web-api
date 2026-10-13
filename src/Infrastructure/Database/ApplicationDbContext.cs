@@ -15,8 +15,28 @@ namespace Infrastructure.Database
         IQueryable<User> IReadDbContext.Users => Users.AsNoTracking();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            ArgumentNullException.ThrowIfNull(modelBuilder);
+
+            base.OnModelCreating(modelBuilder);
+
             // Scans the assembly and applies all IEntityTypeConfiguration classes
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+            // 2. Loop through the final compiled model and apply NEWSEQUENTIALID() globally
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var primaryKey = entityType.FindPrimaryKey();
+                if (primaryKey == null) continue;
+
+                foreach (var property in primaryKey.Properties)
+                {
+                    // Apply it only to Guid primary keys
+                    if (property.ClrType == typeof(Guid))
+                    {
+                        property.SetDefaultValueSql("NEWSEQUENTIALID()");
+                    }
+                }
+            }
         }
     }
 }
