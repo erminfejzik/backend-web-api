@@ -4,6 +4,7 @@ using Application.Abstractions.Services;
 using Application.Repositories;
 using Common;
 using Infrastructure.Authentication;
+using Infrastructure.BackgroundServices;
 using Infrastructure.Database;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
@@ -51,6 +52,8 @@ namespace Infrastructure
                 .Bind(config.GetSection(SmtpOptions.SectionName))
                 .ValidateOnStart();
             services.AddTransient<IEmailService, EmailService>();
+
+            services.AddHostedService<OutboxMessageProcessor>();
 
             return services;
         }
