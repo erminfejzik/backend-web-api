@@ -15,6 +15,7 @@ namespace Infrastructure.Configurations.Outbox
             builder.Property(m => m.Type).HasMaxLength(100);
             builder.Property(m => m.Payload).HasMaxLength(1000);
             builder.Property(m => m.Error).HasMaxLength(1000);
+            builder.Property(x => x.NextAttemptAt).HasDefaultValueSql("SYSUTCDATETIME()");
             builder.HasIndex(m => new { m.ProcessedAt, m.NextAttemptAt });
         }
     }
