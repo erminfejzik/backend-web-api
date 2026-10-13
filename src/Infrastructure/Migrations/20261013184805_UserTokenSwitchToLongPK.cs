@@ -10,6 +10,11 @@ namespace Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_UserToken",
+                table: "UserToken",
+                schema: "Users");
+
             migrationBuilder.AlterColumn<long>(
                 name: "Id",
                 schema: "Users",
@@ -20,11 +25,22 @@ namespace Infrastructure.Migrations
                 oldType: "int")
                 .Annotation("SqlServer:Identity", "1, 1")
                 .OldAnnotation("SqlServer:Identity", "1, 1");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_UserToken",
+                table: "UserToken",
+                column: "Id",
+                schema: "Users");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_UserToken",
+                table: "UserToken",
+                schema: "Users");
+
             migrationBuilder.AlterColumn<int>(
                 name: "Id",
                 schema: "Users",
@@ -35,6 +51,12 @@ namespace Infrastructure.Migrations
                 oldType: "bigint")
                 .Annotation("SqlServer:Identity", "1, 1")
                 .OldAnnotation("SqlServer:Identity", "1, 1");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_UserToken",
+                table: "UserToken",
+                column: "Id",
+                schema: "Users");
         }
     }
 }
