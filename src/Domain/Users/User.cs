@@ -47,5 +47,25 @@ namespace Domain.Users
             _tokens.Add(token);
             return token;
         }
+
+        public bool VerifyEmail(string tokenHash, DateTimeOffset now)
+        {
+            if (EmailVerifiedAt.HasValue)
+                return false;
+
+            var token = _tokens.SingleOrDefault(t => t.TokenHash == tokenHash);
+
+            if (token is null ||
+                !token.IsValid(now) ||
+                token.Purpose != UserTokenPurpose.VerifyEmail ||
+                token.Email != Email)
+                return false;
+
+            token.Revoke(now);
+
+            EmailVerifiedAt = now;
+
+            return true;
+        }
     }
 }

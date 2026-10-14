@@ -31,6 +31,8 @@
             ExpiresAt = now.Add(lifetime),
         };
 
-        public void Revoke(DateTimeOffset now) => UsedAt = now;
+        internal void Revoke(DateTimeOffset now) => UsedAt = now;
+
+        internal bool IsValid(DateTimeOffset now) => !UsedAt.HasValue && ExpiresAt > now;
     }
 }
