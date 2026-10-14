@@ -20,7 +20,6 @@ namespace Infrastructure.Configurations.Users
             builder.Property(x => x.CreatedAt);
 
             builder.HasIndex(x => x.TokenHash).IsUnique();
-            builder.HasIndex(x => new { x.UserId, x.Purpose });
         }
     }
 }
