@@ -12,6 +12,7 @@
     <PackageReference Include="Carter" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
     <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Sinks.Seq" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>
