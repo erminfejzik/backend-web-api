@@ -17,7 +17,7 @@ namespace Infrastructure.Configurations.Users
 
             builder.HasIndex(u => u.Email).IsUnique();
 
-            builder.Property(u => u.Password)
+            builder.Property(u => u.PasswordHash)
                 .IsRequired()
                 .HasMaxLength(84); // 84 characters is the maximum length for a hashed password using PasswordHasher
 

@@ -5,7 +5,7 @@ namespace Domain.Users
     public sealed class User : BaseEntity
     {
         public string Email { get; private set; } = default!;
-        public string Password { get; private set; } = default!; // Hashed password
+        public string PasswordHash { get; private set; } = default!; // Hashed password
 
         public int RoleId { get; private set; }
         public Role Role { get; private set; } = null!;
@@ -27,7 +27,7 @@ namespace Domain.Users
         new()
         {
             Email = email,
-            Password = passwordHash,
+            PasswordHash = passwordHash,
             RoleId = roleId
         };
 
