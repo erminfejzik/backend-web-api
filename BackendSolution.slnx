@@ -11,7 +11,9 @@
     <Project Path="src/Infrastructure/Infrastructure.csproj" Id="2713c928-019a-41e1-adad-dab520877a4b" />
     <Project Path="src/Web.API/Web.API.csproj" />
   </Folder>
-  <Folder Name="/tests/" />
+  <Folder Name="/tests/">
+    <Project Path="tests/Domain.UnitTests/Domain.UnitTests.csproj" Id="10d55993-5052-41be-9508-ff79e9930ed1" />
+  </Folder>
   <Project Path="docker-compose.dcproj">
     <Build />
   </Project>
