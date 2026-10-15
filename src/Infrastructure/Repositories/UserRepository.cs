@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
                 .Include(user => user.Tokens.Where(token => token.TokenHash == tokenHash))
                 .FirstOrDefaultAsync(user => user.Tokens.Any(token => token.TokenHash == tokenHash), ct);
 
-        public Task<bool> ExistsByEmailAsync(string email) => db.Users.AnyAsync(u => u.Email == email);
+        public Task<bool> ExistsByEmailAsync(string email, CancellationToken ct) => db.Users.AnyAsync(u => u.Email == email, ct);
 
         public void Add(User user)
         {

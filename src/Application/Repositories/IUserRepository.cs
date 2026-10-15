@@ -6,7 +6,7 @@ namespace Application.Repositories
     {
         Task<User?> GetByIdAsync(Guid id, CancellationToken ct);
         Task<User?> GetByEmailVerificationTokenHashAsync(string tokenHash, CancellationToken ct);
-        Task<bool> ExistsByEmailAsync(string email);
+        Task<bool> ExistsByEmailAsync(string email, CancellationToken ct);
         void Add(User user);
     }
 }

@@ -27,7 +27,7 @@ namespace Application.Features.Users
                 return validationResult.ToResultFailure<Guid>();
             }
 
-            if (await userRepository.ExistsByEmailAsync(command.Email))
+            if (await userRepository.ExistsByEmailAsync(command.Email, cancellationToken))
             {
                 return Result<Guid>.Failure([UserErrors.EmailTaken]);
             }
