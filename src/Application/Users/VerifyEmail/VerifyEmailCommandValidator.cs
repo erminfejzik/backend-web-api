@@ -8,7 +8,7 @@ namespace Application.Users.VerifyEmail
         {
             RuleFor(command => command.Token)
                 .NotEmpty().WithMessage("Verification token is required.")
-                .MaximumLength(64);
+                .Length(43).WithMessage("Invalid token format");
         }
     }
 }
