@@ -33,10 +33,18 @@ namespace Domain.Users
 
         public UserToken IssueToken(UserTokenPurpose purpose, string tokenHash, TimeSpan lifetime, DateTimeOffset now)
         {
-            foreach (var old in _tokens.Where(t => t.Purpose == purpose && t.UsedAt.HasValue))
-                old.Revoke(now);
+            // Revoke all previous tokens of the same purpose that are still valid
+            for (int i = _tokens.Count - 1; i >= 0; i--)
+            {
+                var token = _tokens[i];
+                if (token.Purpose == purpose && token.IsValid(now))
+                {
+                    token.Revoke(now);
+                    _tokens.Remove(token);
+                }
+            }
 
-            var token = UserToken.Create(
+            var newToken = UserToken.Create(
                 userId: Id,
                 purpose: purpose,
                 email: Email,
@@ -44,8 +52,8 @@ namespace Domain.Users
                 lifetime: lifetime,
                 now: now);
 
-            _tokens.Add(token);
-            return token;
+            _tokens.Add(newToken);
+            return newToken;
         }
 
         public bool VerifyEmail(string tokenHash, DateTimeOffset now)
