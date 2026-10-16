@@ -1,10 +1,17 @@
 ﻿using Domain.Common;
+using System.Collections.ObjectModel;
 
 namespace Domain.Outbox
 {
     public static class OutboxMessageTypes
     {
         public const string VerificationEmail = "VerificationEmail";
+
+        static readonly HashSet<string> _all =
+        [
+            VerificationEmail
+        ];
+        public static ReadOnlySet<string> All => new(_all);
     }
 
     public sealed class OutboxMessage : BaseEntity
@@ -26,11 +33,20 @@ namespace Domain.Outbox
         /// </summary>
         public string? Error { get; private set; }
 
-        public static OutboxMessage Create(string type, string payload) => new()
+        public static OutboxMessage Create(string type, string payload)
         {
-            Type = type,
-            Payload = payload,
-        };
+            if (!OutboxMessageTypes.All.Contains(type))
+                throw new ArgumentException("Invalid outbox messsage type");
+
+            if (string.IsNullOrEmpty(payload))
+                throw new ArgumentException("Payload is null or empty");
+
+            return new()
+            {
+                Type = type,
+                Payload = payload,
+            };
+        }
 
         public void MarkProcessed(DateTimeOffset nowUtc)
         {
@@ -47,7 +63,7 @@ namespace Domain.Outbox
             Attempts++;
 
             // Error must be non-empty on failure: it is what distinguishes failed from succeeded.
-            error = string.IsNullOrWhiteSpace(error) ? "Unknown error" : error;
+            error = string.IsNullOrEmpty(error) ? "Unknown error" : error;
             Error = error.Length <= 1000 ? error : error[..1000];
 
             if (permanent || Attempts > maxRetries)
