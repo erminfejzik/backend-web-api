@@ -1,4 +1,4 @@
-using Application.Features.Users;
+using Application.Users.VerifyEmail;
 using Carter;
 using Common;
 using MediatR;
@@ -6,7 +6,7 @@ using Web.API.Extensions;
 
 namespace Web.API.Endpoints.Users
 {
-    public sealed class VerifyEmail : ICarterModule
+    internal sealed class VerifyEmail : ICarterModule
     {
         sealed record Request(string Token);
 

@@ -1,7 +1,7 @@
 using Common;
 using MediatR;
 
-namespace Application.Features.Users
+namespace Application.Users.VerifyEmail
 {
     public sealed record VerifyEmailCommand(string Token) : IRequest<Result>;
 }

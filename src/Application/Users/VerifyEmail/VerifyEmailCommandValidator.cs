@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Application.Features.Users
+namespace Application.Users.VerifyEmail
 {
     internal sealed class VerifyEmailCommandValidator : AbstractValidator<VerifyEmailCommand>
     {

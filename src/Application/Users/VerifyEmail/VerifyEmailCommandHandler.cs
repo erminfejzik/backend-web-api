@@ -7,7 +7,7 @@ using Domain.Users;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Features.Users
+namespace Application.Users.VerifyEmail
 {
     internal sealed class VerifyEmailCommandHandler(
         IUnitOfWork unitOfWork,

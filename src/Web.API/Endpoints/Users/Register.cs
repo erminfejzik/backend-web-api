@@ -1,11 +1,12 @@
-﻿using Carter;
+﻿using Application.Users.Register;
+using Carter;
 using Common;
 using MediatR;
 using Web.API.Extensions;
 
 namespace Web.API.Endpoints.Users
 {
-    public class Register : ICarterModule
+    internal sealed class Register : ICarterModule
     {
         sealed record RegisterUserRequest(string Email, string Password);
 
@@ -13,7 +14,7 @@ namespace Web.API.Endpoints.Users
         {
             app.MapPost("/users/register", async (RegisterUserRequest body, ISender sender, CancellationToken ct) =>
             {
-                Result<Guid> result = await sender.Send(new Application.Features.Users.RegisterUserCommand(
+                Result<Guid> result = await sender.Send(new RegisterUserCommand(
                     body.Email,
                     body.Password), ct);
 

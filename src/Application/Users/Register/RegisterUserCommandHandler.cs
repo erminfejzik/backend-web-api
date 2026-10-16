@@ -9,7 +9,7 @@ using FluentValidation;
 using MediatR;
 using System.Text.Json;
 
-namespace Application.Features.Users
+namespace Application.Users.Register
 {
     internal sealed class RegisterUserCommandHandler(
         IUnitOfWork unitOfWork,
