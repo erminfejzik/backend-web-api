@@ -1,5 +1,4 @@
 ﻿using Domain.Outbox;
-using FluentAssertions;
 
 namespace Domain.UnitTests.Outbox
 {

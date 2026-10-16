@@ -1,11 +1,7 @@
-﻿using Application.Abstractions.Database;
-using Application.Abstractions.Services;
+﻿using Application.Abstractions.Services;
 using Application.Repositories;
 using Application.Users.VerifyEmail;
-using Common;
 using Domain.Users;
-using FluentAssertions;
-using Moq;
 
 namespace Application.UnitTests.Users
 {
