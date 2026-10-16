@@ -45,20 +45,38 @@ namespace Domain.UnitTests.Users
         {
             // Arrange
             var user = User.Create(Email, PasswordHash, RoleId);
-            const string tokenHash1 = "verification-token-hash-1";
-            const string tokenHash2 = "verification-token-hash-2";
-            const string tokenHash3 = "verification-token-hash-3";
+            const string tokenHash = "token-hash";
+
+            var firstVerifyEmailToken = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash, Lifetime, Now);
+            var resetPasswordToken = user.IssueToken(UserTokenPurpose.ResetPassword, tokenHash, Lifetime, Now);
 
             // Act
-            _ = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash1, Lifetime, Now);
-            var token2 = user.IssueToken(UserTokenPurpose.ResetPassword, tokenHash2, Lifetime, Now);
-            var token3 = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash3, Lifetime, Now);
+            var secondVerifyEmailToken = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash, Lifetime, Now);
 
             // Assert
-            user.Tokens.Should().HaveCount(2);
+            user.Tokens.Should().BeEqualTo(firstVerifyEmailToken, resetPasswordToken, secondVerifyEmailToken);
+            firstVerifyEmailToken.UsedAt.Should().BeExactly(Now);
+            resetPasswordToken.UsedAt.Should().BeNull();
+            secondVerifyEmailToken.UsedAt.Should().BeNull();
+        }
 
-            user.Tokens.Should().HaveElementAt(0, token2);
-            user.Tokens.Should().HaveElementAt(1, token3);
+        [Fact]
+        public void IssueToken_ShouldNot_RevokeExpiredTokens_WithSamePurpose()
+        {
+            // Arrange
+            var user = User.Create(Email, PasswordHash, RoleId);
+            const string tokenHash = "token-hash";
+
+            var token1 = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash, Lifetime, Now);
+            user.VerifyEmail(tokenHash, Now);
+
+            var now2 = Now.AddMinutes(5);
+
+            // Act
+            _ = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash, Lifetime, now2);
+
+            // Assert
+            token1.UsedAt.Should().BeExactly(Now); // not now2
         }
 
         [Fact]

@@ -33,15 +33,8 @@ namespace Domain.Users
         public UserToken IssueToken(UserTokenPurpose purpose, string tokenHash, TimeSpan lifetime, DateTimeOffset now)
         {
             // Revoke all previous tokens of the same purpose that are still valid
-            for (int i = _tokens.Count - 1; i >= 0; i--)
-            {
-                var token = _tokens[i];
-                if (token.Purpose == purpose && token.IsValid(now))
-                {
-                    token.Revoke(now);
-                    _tokens.Remove(token);
-                }
-            }
+            foreach (var t in _tokens.Where(t => t.Purpose == purpose && t.IsValid(now)))
+                t.Revoke(now);
 
             var newToken = UserToken.Create(
                 userId: Id,
