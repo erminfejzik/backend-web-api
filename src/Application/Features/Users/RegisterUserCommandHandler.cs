@@ -35,7 +35,7 @@ namespace Application.Features.Users
             var user = User.Create(
                 email: command.Email,
                 passwordHash: passwordHasher.Hash(command.Password),
-                roleId: Role.UserId
+                roleId: RoleId.User
             );
 
             userRepository.Add(user);

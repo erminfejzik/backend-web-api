@@ -29,7 +29,7 @@ namespace Infrastructure.Database
             rfcBytes[10..12].CopyTo(sqlBytes[4..]);
             rfcBytes[12..16].CopyTo(sqlBytes[0..]);
 
-            return new Guid(sqlBytes);
+            return new Guid(sqlBytes, bigEndian: false);
         }
     }
 }

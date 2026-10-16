@@ -21,11 +21,6 @@ namespace Infrastructure.Configurations.Users
                 .IsRequired()
                 .HasMaxLength(84); // 84 characters is the maximum length for a hashed password using PasswordHasher
 
-            builder.HasOne(u => u.Role)
-                .WithMany()
-                .HasForeignKey(u => u.RoleId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.Property(user => user.IsBlocked).IsRequired();
 
             builder.Property(user => user.TwoFactorEnabled).IsRequired();

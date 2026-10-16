@@ -9,7 +9,6 @@ namespace Infrastructure.Database
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IUnitOfWork, IReadDbContext
     {
         public DbSet<User> Users => Set<User>();
-        public DbSet<Role> Roles => Set<Role>();
         public DbSet<UserToken> UserTokens => Set<UserToken>();
         public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 

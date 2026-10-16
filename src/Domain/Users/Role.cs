@@ -1,22 +1,10 @@
 ﻿namespace Domain.Users
 {
-    public sealed class Role
+    public enum RoleId
     {
-        public int Id { get; private init; }
-        public string Name { get; private init; }
-
-        private Role(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-
-        public const int SuperAdminId = 1;
-        public const int AdminId = 2;
-        public const int UserId = 3;
-
-        public static Role SuperAdminRole() => new(SuperAdminId, "SuperAdmin");
-        public static Role AdminRole() => new(AdminId, "Admin");
-        public static Role UserRole() => new(UserId, "User");
+        None = 0,
+        SuperAdmin = 1,
+        Admin = 2,
+        User = 3
     }
 }

@@ -6,7 +6,7 @@ namespace Domain.UnitTests.Users
     {
         const string Email = "user@example.com";
         const string PasswordHash = "hashed-password";
-        const int RoleId = Role.UserId;
+        const RoleId RoleId = RoleId.User;
         static readonly DateTimeOffset Now = new(2026, 1, 1, 0, 0, 0, TimeSpan.Zero);
         static readonly TimeSpan Lifetime = TimeSpan.FromHours(24);
 

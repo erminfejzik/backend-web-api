@@ -7,8 +7,7 @@ namespace Domain.Users
         public string Email { get; private set; } = default!;
         public string PasswordHash { get; private set; } = default!; // Hashed password
 
-        public int RoleId { get; private set; }
-        public Role Role { get; private set; } = null!;
+        public RoleId RoleId { get; private set; }
 
         private readonly List<UserToken> _tokens = [];
         public IReadOnlyCollection<UserToken> Tokens => _tokens;
@@ -23,7 +22,7 @@ namespace Domain.Users
         // --- Security Settings ---
         public bool TwoFactorEnabled { get; private set; }
 
-        public static User Create(string email, string passwordHash, int roleId) =>
+        public static User Create(string email, string passwordHash, RoleId roleId) =>
         new()
         {
             Email = email,

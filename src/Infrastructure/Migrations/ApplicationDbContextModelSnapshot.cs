@@ -65,41 +65,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("OutboxMessages", "Outbox");
                 });
 
-            modelBuilder.Entity("Domain.Users.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Role", "Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "SuperAdmin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "User"
-                        });
-                });
-
             modelBuilder.Entity("Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -146,8 +111,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.HasIndex("RoleId");
-
                     b.ToTable("User", "Users");
                 });
 
@@ -193,17 +156,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserToken", "Users");
-                });
-
-            modelBuilder.Entity("Domain.Users.User", b =>
-                {
-                    b.HasOne("Domain.Users.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Domain.Users.UserToken", b =>
