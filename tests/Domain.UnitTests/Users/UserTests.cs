@@ -1,4 +1,5 @@
 ﻿using Domain.Users;
+using FluentAssertions;
 
 namespace Domain.UnitTests.Users
 {
@@ -11,14 +12,14 @@ namespace Domain.UnitTests.Users
         static readonly TimeSpan Lifetime = TimeSpan.FromHours(24);
 
         [Fact]
-        public void Create_User_SetsEmailPasswordHashAndRoleId()
+        public void Create_User_Should_SetEmailPasswordHashAndRoleId()
         {
             var user = User.Create(Email, PasswordHash, RoleId);
 
             // Assert
-            Assert.Equal(Email, user.Email);
-            Assert.Equal(PasswordHash, user.PasswordHash);
-            Assert.Equal(RoleId, user.RoleId);
+            user.Email.Should().Be(Email);
+            user.PasswordHash.Should().Be(PasswordHash);
+            user.RoleId.Should().Be(RoleId);
         }
 
         [Fact]
@@ -32,15 +33,15 @@ namespace Domain.UnitTests.Users
             var token = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash, Lifetime, Now);
 
             // Assert
-            Assert.Same(token, Assert.Single(user.Tokens));
-            Assert.Equal(user.Id, token.UserId);
-            Assert.Equal(UserTokenPurpose.VerifyEmail, token.Purpose);
-            Assert.Equal(Email, token.Email);
-            Assert.Equal(tokenHash, token.TokenHash);
+            user.Tokens.Should().ContainSingle("because only one token was issued");
+            user.Tokens.First().Should().BeSameAs(token);
+            token.TokenHash.Should().Be(tokenHash);
+            token.Purpose.Should().Be(UserTokenPurpose.VerifyEmail);
+            token.Email.Should().Be(Email);
         }
 
         [Fact]
-        public void IssueToken_RevokesOldTokens_WithSamePurpose()
+        public void IssueToken_Should_RevokeOldTokens_WithSamePurpose()
         {
             // Arrange
             var user = User.Create(Email, PasswordHash, RoleId);
@@ -54,17 +55,14 @@ namespace Domain.UnitTests.Users
             var token3 = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash3, Lifetime, Now);
 
             // Assert
-            Assert.Equal(2, user.Tokens.Count);
+            user.Tokens.Should().HaveCount(2);
 
-            Assert.Equal(token2.TokenHash, user.Tokens.First().TokenHash);
-            Assert.Equal(token2.Purpose, user.Tokens.First().Purpose);
-
-            Assert.Equal(token3.TokenHash, user.Tokens.Last().TokenHash);
-            Assert.Equal(token3.Purpose, user.Tokens.Last().Purpose);
+            user.Tokens.Should().HaveElementAt(0, token2);
+            user.Tokens.Should().HaveElementAt(1, token3);
         }
 
         [Fact]
-        public void VerifyEmail_WithValidToken_VerifiesEmailAndConsumesToken()
+        public void VerifyEmail_Should_VerifiyEmailAndConsumeToken_WhenTokenIsValid()
         {
             // Arrange
             var user = User.Create(Email, PasswordHash, RoleId);
@@ -76,13 +74,13 @@ namespace Domain.UnitTests.Users
             var result = user.VerifyEmail(tokenHash, verifiedAt);
 
             // Assert
-            Assert.True(result);
-            Assert.Equal(verifiedAt, user.EmailVerifiedAt);
-            Assert.Equal(verifiedAt, token.UsedAt);
+            result.Should().BeTrue();
+            user.EmailVerifiedAt.Should().BeExactly(verifiedAt);
+            token.UsedAt.Should().BeExactly(verifiedAt);
         }
 
         [Fact]
-        public void VerifyEmail_WithUnknownTokenHash_ReturnsFalse()
+        public void VerifyEmail_Should_ReturnFalse_WithUnknownTokenHash()
         {
             // Arrange
             var user = User.Create(Email, PasswordHash, RoleId);
@@ -91,12 +89,12 @@ namespace Domain.UnitTests.Users
             var result = user.VerifyEmail("unknown-token-hash", Now);
 
             // Assert
-            Assert.False(result);
-            Assert.Null(user.EmailVerifiedAt);
+            result.Should().BeFalse();
+            user.EmailVerifiedAt.Should().BeNull();
         }
 
         [Fact]
-        public void VerifyEmail_WhenEmailAlreadyVerified_ReturnsFalse()
+        public void VerifyEmail_Should_ReturnFalse_WhenEmailIsAlreadyVerified()
         {
             // Arrange
             var user = User.Create(Email, PasswordHash, RoleId);
@@ -108,7 +106,7 @@ namespace Domain.UnitTests.Users
             var result = user.VerifyEmail(tokenHash, Now.AddMinutes(5));
 
             // Assert
-            Assert.False(result);
+            result.Should().BeFalse();
         }
     }
 }
