@@ -1,3 +1,4 @@
+name: backend-api
 services:
   web.api:
     image: ${DOCKER_REGISTRY-}webapi
@@ -10,6 +11,8 @@ services:
       - "5001:8081"
     depends_on:
       sqlserver:
+        condition: service_healthy
+      seq:
         condition: service_healthy
 
   sqlserver:
@@ -30,5 +33,22 @@ services:
       retries: 3
     restart: always
 
+  seq:
+    image: datalust/seq:2026.1.17182
+    container_name: seq
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_PASSWORD=${SEQ_PASSWORD}
+    ports:
+      - 8085:80
+    volumes:
+      - seq_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
 volumes:
   sqlserver_data:
+  seq_data:

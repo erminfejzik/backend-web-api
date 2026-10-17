@@ -12,11 +12,13 @@
     <PackageReference Include="Carter" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
     <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Sinks.Seq" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Security.Cryptography.Pkcs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +32,10 @@
 
   <ItemGroup>
     <None Include="C:\Users\ermin\source\repos\Backend - Web API\src\Web.API\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="IntegrationTests" />
   </ItemGroup>
 
 </Project>

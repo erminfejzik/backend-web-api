@@ -1,0 +1,12 @@
+﻿using Domain.Users;
+
+namespace Application.Repositories
+{
+    public interface IUserRepository
+    {
+        Task<User?> GetByIdAsync(Guid id, CancellationToken ct);
+        Task<User?> GetByEmailVerificationTokenHashAsync(string tokenHash, CancellationToken ct);
+        Task<bool> ExistsByEmailAsync(string email, CancellationToken ct);
+        void Add(User user);
+    }
+}
