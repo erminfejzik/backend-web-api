@@ -6,26 +6,26 @@ namespace Domain.UnitTests.Users
     {
         const string Email = "user@example.com";
         const string PasswordHash = "hashed-password";
-        const RoleId RoleId = RoleId.User;
+        private const RoleId UserRole = RoleId.User;
         static readonly DateTimeOffset Now = new(2026, 1, 1, 0, 0, 0, TimeSpan.Zero);
         static readonly TimeSpan Lifetime = TimeSpan.FromHours(24);
 
         [Fact]
         public void Create_User_Should_SetEmailPasswordHashAndRoleId()
         {
-            var user = User.Create(Email, PasswordHash, RoleId);
+            var user = User.Create(Email, PasswordHash, UserRole);
 
             // Assert
             user.Email.Should().Be(Email);
             user.PasswordHash.Should().Be(PasswordHash);
-            user.RoleId.Should().Be(RoleId);
+            user.RoleId.Should().Be(UserRole);
         }
 
         [Fact]
         public void IssueToken_AddsToken_WithRequestedDetails()
         {
             // Arrange
-            var user = User.Create(Email, PasswordHash, RoleId);
+            var user = User.Create(Email, PasswordHash, UserRole);
             const string tokenHash = "verification-token-hash";
 
             // Act
@@ -43,7 +43,7 @@ namespace Domain.UnitTests.Users
         public void IssueToken_Should_RevokeOldTokens_WithSamePurpose()
         {
             // Arrange
-            var user = User.Create(Email, PasswordHash, RoleId);
+            var user = User.Create(Email, PasswordHash, UserRole);
             const string tokenHash = "token-hash";
 
             var firstVerifyEmailToken = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash, Lifetime, Now);
@@ -63,7 +63,7 @@ namespace Domain.UnitTests.Users
         public void IssueToken_ShouldNot_RevokeExpiredTokens_WithSamePurpose()
         {
             // Arrange
-            var user = User.Create(Email, PasswordHash, RoleId);
+            var user = User.Create(Email, PasswordHash, UserRole);
             const string tokenHash = "token-hash";
 
             var token1 = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash, Lifetime, Now);
@@ -79,10 +79,10 @@ namespace Domain.UnitTests.Users
         }
 
         [Fact]
-        public void VerifyEmail_Should_VerifiyEmailAndConsumeToken_WhenTokenIsValid()
+        public void VerifyEmail_Should_VerifyEmailAndConsumeToken_WhenTokenIsValid()
         {
             // Arrange
-            var user = User.Create(Email, PasswordHash, RoleId);
+            var user = User.Create(Email, PasswordHash, UserRole);
             const string tokenHash = "verification-token-hash";
             var token = user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash, Lifetime, Now);
             var verifiedAt = Now.AddMinutes(5);
@@ -100,7 +100,7 @@ namespace Domain.UnitTests.Users
         public void VerifyEmail_Should_ReturnFalse_WithUnknownTokenHash()
         {
             // Arrange
-            var user = User.Create(Email, PasswordHash, RoleId);
+            var user = User.Create(Email, PasswordHash, UserRole);
 
             // Act
             var result = user.VerifyEmail("unknown-token-hash", Now);
@@ -114,7 +114,7 @@ namespace Domain.UnitTests.Users
         public void VerifyEmail_Should_ReturnFalse_WhenEmailIsAlreadyVerified()
         {
             // Arrange
-            var user = User.Create(Email, PasswordHash, RoleId);
+            var user = User.Create(Email, PasswordHash, UserRole);
             const string tokenHash = "verification-token-hash";
             user.IssueToken(UserTokenPurpose.VerifyEmail, tokenHash, Lifetime, Now);
             user.VerifyEmail(tokenHash, Now);

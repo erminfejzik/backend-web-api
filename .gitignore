@@ -429,3 +429,5 @@ FodyWeavers.xsd
 *.msp
 
 /src/Web.API/appsettings.Development.json
+
+.idea/

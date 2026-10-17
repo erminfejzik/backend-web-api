@@ -34,4 +34,8 @@
     <None Include="C:\Users\ermin\source\repos\Backend - Web API\src\Web.API\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="IntegrationTests" />
+  </ItemGroup>
+
 </Project>

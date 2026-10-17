@@ -6,10 +6,10 @@ using Web.API.Extensions;
 
 namespace Web.API.Endpoints.Users
 {
-    internal sealed class Register : ICarterModule
+    internal sealed record RegisterUserRequest(string Email, string Password);
+    
+    public sealed class RegisterUser : ICarterModule
     {
-        sealed record RegisterUserRequest(string Email, string Password);
-
         public void AddRoutes(IEndpointRouteBuilder app)
         {
             app.MapPost("/users/register", async (RegisterUserRequest body, ISender sender, CancellationToken ct) =>

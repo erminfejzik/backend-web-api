@@ -1,3 +1,4 @@
+name: backend-api
 services:
   web.api:
     image: ${DOCKER_REGISTRY-}webapi

@@ -25,10 +25,8 @@ namespace Infrastructure.Services
             message.Subject = subject;
             message.Body = new BodyBuilder { HtmlBody = htmlBody }.ToMessageBody();
 
-            using var client = new SmtpClient 
-            {
-                Timeout = _options.TimeoutSeconds * 1000
-            };
+            using SmtpClient client = new();
+            client.Timeout = _options.TimeoutSeconds * 1000;
 
             try
             {

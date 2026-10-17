@@ -16,11 +16,11 @@ namespace Domain.Outbox
 
     public sealed class OutboxMessage : BaseEntity
     {
-        public string Type { get; private set; } = default!;
+        public string Type { get; private set; } = null!;
         /// <summary>
         /// The payload of the outbox message, JSON formatted.
         /// </summary>
-        public string Payload { get; private set; } = default!;
+        public string Payload { get; private set; } = null!;
 
         public DateTimeOffset? ProcessedAt { get; private set; }
 
@@ -36,7 +36,7 @@ namespace Domain.Outbox
         public static OutboxMessage Create(string type, string payload)
         {
             if (!OutboxMessageTypes.All.Contains(type))
-                throw new ArgumentException("Invalid outbox messsage type");
+                throw new ArgumentException("Invalid outbox message type");
 
             if (string.IsNullOrEmpty(payload))
                 throw new ArgumentException("Payload is null or empty");

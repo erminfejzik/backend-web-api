@@ -6,13 +6,13 @@ using Web.API.Extensions;
 
 namespace Web.API.Endpoints.Users
 {
-    internal sealed class VerifyEmail : ICarterModule
+    public sealed class VerifyEmailEndpoint : ICarterModule
     {
         sealed record Request(string Token);
 
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("/verify-email", async (Request request, ISender sender, CancellationToken ct) =>
+            app.MapPost("/users/verify-email", async (Request request, ISender sender, CancellationToken ct) =>
             {
                 Result result = await sender.Send(new VerifyEmailCommand(request.Token), ct);
 
